@@ -3,6 +3,31 @@ from django.urls import reverse
 from mptt.models import MPTTModel
 from mptt.fields import TreeForeignKey
 
+class Settings(models.Model):
+    logo = models.ImageField(upload_to='media/', verbose_name='лого', null=True, blank=True)
+    title = models.CharField(max_length=50, verbose_name='название', null=True, blank=True)
+    email = models.CharField(max_length=100, verbose_name='email', null=True, blank=True)
+    about_us = models.TextField(verbose_name='о нас', null=True, blank=True)
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = 'Данные'
+        verbose_name_plural = 'Данные'
+
+class SocialLinks(models.Model):
+    title = models.CharField(max_length=150, verbose_name="Название соцсети")
+    set = models.ForeignKey(Settings, models.CASCADE, related_name='social_links', null=True, blank=True)
+    link = models.CharField(max_length=255, verbose_name="ссылка")
+    image = models.ImageField(upload_to='media/', verbose_name="лого")
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = 'Соц.сети'
+        verbose_name_plural = 'Соц.сеть'
 
 class Category(MPTTModel):
     STATUS = (

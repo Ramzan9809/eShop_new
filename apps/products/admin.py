@@ -1,6 +1,6 @@
 from django.contrib import admin
 from mptt.admin import DraggableMPTTAdmin
-from apps.products.models import Category, Product, Images
+from apps.products.models import Category, Product, Images, Settings, SocialLinks
 
 
 class CategoryAdmin(DraggableMPTTAdmin):
@@ -10,6 +10,13 @@ class CategoryAdmin(DraggableMPTTAdmin):
     list_display_links = ('indented_title',)
     prepopulated_fields = {'slug': ('title',)}
 
+class SocialLinksInline(admin.TabularInline):
+    model = SocialLinks
+    extra = 1
+
+class SettingAdmin(admin.ModelAdmin):
+    list_display = ['title', 'email']
+    inlines = [SocialLinksInline,]
 
 class ProductImageInline(admin.TabularInline):
     model = Images
@@ -24,3 +31,5 @@ class ProductAdmin(admin.ModelAdmin):
 admin.site.register(Category,  CategoryAdmin)
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Images)
+admin.site.register(SocialLinks)
+admin.site.register(Settings, SettingAdmin)

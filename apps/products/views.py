@@ -1,17 +1,25 @@
 from django.shortcuts import render, get_object_or_404
-from apps.products.models import Product, Category, Images
+from apps.products.models import Product, Category, Images, Settings
 
 def home(request):
     products = Product.objects.all()
     sliders = Product.objects.all()[:2]
     categories = Category.objects.all()[:6]
+    settings = Settings.objects.latest('id')
     context = {
         'products':products,
         'sliders':sliders,
         'categories':categories,
+        'settings': settings,
     }
     return render(request, 'index.html', context)
 
+def content(request):
+    settings = Settings.objects.latest('id')
+    context = {
+        'settings': settings,
+    }
+    return render(request, 'content.html', context)
 
 def product_detail(request, slug):
     categories = Category.objects.all()[:6]
