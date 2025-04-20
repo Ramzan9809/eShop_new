@@ -41,3 +41,13 @@ def reg_view(request):
             else:
                 return render(request, 'auth/login.html', {'error':'Ошибка аутентификации'})
     return render(request, 'auth/register.html')
+
+def logout_view(request):
+    user_logout(request)
+    return HttpResponseRedirect('/')
+
+
+@login_required
+def profile_view(request):
+    categories = Category.objects.all()[:6]
+    return render(request, 'auth/profile.html', {'categories':categories})
