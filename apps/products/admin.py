@@ -1,6 +1,6 @@
 from django.contrib import admin
 from mptt.admin import DraggableMPTTAdmin
-from apps.products.models import Category, Product, Images, Settings, SocialLinks
+from apps.products.models import Category, Product, Images, Settings, SocialLinks, Faq
 
 
 class CategoryAdmin(DraggableMPTTAdmin):
@@ -29,6 +29,8 @@ class ProductAdmin(admin.ModelAdmin):
     inlines = [ProductImageInline]
     save_on_top = True
 
+admin.site.register(Images)
+admin.site.register(Faq)
 admin.site.register(Category,  CategoryAdmin)
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Images)
