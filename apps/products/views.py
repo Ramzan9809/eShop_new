@@ -125,7 +125,7 @@ def cart_remove(request, product_id):
      product = get_object_or_404(Product, id=product_id)
      cart.remove(product=product)
      return redirect('cart_detail')
- 
+
  
 def cart_detail(request):
      cart = Cart(request)
@@ -135,3 +135,13 @@ def cart_detail(request):
          'cart':cart,
      }
      return render(request, 'pages/cart.html', context)
+
+def cart_update(request, product_id):
+    if request.method == 'POST':
+        quantity = int(request.POST.get('quantity', 1))
+        product = get_object_or_404(Product, id=product_id)
+
+        cart = Cart(request)
+        cart.add(product=product, quantity=quantity, update_quantity=True)
+
+    return redirect('cart_detail')

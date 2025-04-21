@@ -29,7 +29,6 @@ class ProductAdmin(admin.ModelAdmin):
     inlines = [ProductImageInline]
     save_on_top = True
 
-admin.site.register(Images)
 admin.site.register(Faq)
 admin.site.register(Category,  CategoryAdmin)
 admin.site.register(Product, ProductAdmin)
