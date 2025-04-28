@@ -8,51 +8,46 @@
  <div class="section">
  	<!-- container -->
  	<div class="container">
- 		<!-- row -->
- 		<div class="row">
- 			<!-- section title -->
- 			<div class="col-md-12">
- 				<div class="section-title">
- 					<h2 class="title">Ваша корзина</h2>
- 				</div>
- 			</div>
- 			<!-- section title --> 
- <table>
-     <thead>
-         <tr>
-             <th>Товар</th>
-             <th>Цена</th>
-             <th>Кол-во</th>
-             <th>Сумма</th>
-             <th>Удалить</th>
-         </tr>
-     </thead>
-     <tbody> 
-         {% for item in cart %}
-           <tr>
-             <td>{{ item.product.title }}</td>
-             <td>{{ item.price }}</td>
-             <td>
-                <form method="post" action="{% url 'cart_update' item.product.id %}">
-                  {% csrf_token %}
-                  <input type="number" name="quantity" value="{{ item.quantity }}" min="1" style="width: 60px;" />
-                  <button type="submit">Обновить</button>
-                </form>
-              </td>
-             <td>{{ item.total_price }}</td> 
-             <td>
-                 <a href="{% url 'cart_remove' item.product.id %}">Удалить</a>
-             </td> 
-           </tr>
-         {% endfor %}
-     </tbody>
- </table>
- <p><strong>Итого:</strong>{{ cart.get_total_price }}</p>
- 
- </div>
- <!-- /row --> 
- </div>
- <!-- /container -->
+    <h2 class="md-4">Моя корзина</h2>
+    <div class="row">
+        <div class="col-12">
+            {% if cart %}
+            {% for item in cart %}
+            <div class="card mb-3">
+                <div class="row align-items-center">
+                    <div class="col-2">
+                        <img src="{{ item.product.image.url }}" class="card-img" width="100px" alt="">
+                    </div>
+                    <div class="col-7">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ item.product.title }}</h5>
+                            <p class="card-text">
+                                Цена за единицу: {{ item.product.price }} сом<br>
+                                Количество: {{ item.quantity }}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-3 text-right pr-3">
+                        <p class="card-text"><strong>Итого за товар: {{ item.total_price }} сом</strong></p>
+                        <form method="post" action="{% url 'cart_remove' item.product.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger btn-sm">Удалить</button>
+                        </form>
+                            </div>
+                            {% endfor %}
+                            <div class="text-right">
+                                <h4>Общая сумма: {{ cart_total_price }} сом</h4>
+                                <a href="{% url 'checkout' %}" class="btn btn-success">Оформить заказ</a>
+                            </div>
+                            {% else %}
+                            <div class="alert alert-info">
+                            Ваша корзина пуста  
+                        </div>
+                        {% endif %}
+        </div>
+    </div>
+</div>
+<!-- /container -->
  </div>
  <!-- /section -->
  {% endblock %}
